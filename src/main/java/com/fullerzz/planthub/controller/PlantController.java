@@ -1,16 +1,13 @@
 package com.fullerzz.planthub.controller;
 
 import com.fullerzz.planthub.model.Plant;
-import com.fullerzz.planthub.model.requests.AddPlantRequest;
 import com.fullerzz.planthub.service.DatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -26,13 +23,20 @@ public class PlantController {
 
     @GetMapping("/plants")
     public ResponseEntity<List> getAllPlants() {
-        List<Plant> plants = dbService.readAllPlants();
+        List<Plant> plants = dbService.getAllPlants();
         if (plants.size() > 0) {
             return ResponseEntity.ok().body(plants);
         } else {
             return ResponseEntity.internalServerError().body(plants);
         }
 
+    }
+
+    @GetMapping("/plants/{plantName}")
+    public ResponseEntity<Plant> getPlant(@PathVariable String plantName) {
+        String decodedName = java.net.URLDecoder.decode(plantName, StandardCharsets.UTF_8);
+        Plant plant = dbService.getPlant(decodedName);
+        return ResponseEntity.ok().body(plant);
     }
 
     @PostMapping("/addPlant")
