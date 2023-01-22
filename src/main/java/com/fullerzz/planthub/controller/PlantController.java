@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -34,8 +33,7 @@ public class PlantController {
 
     @GetMapping("/plants/{plantName}")
     public ResponseEntity<Plant> getPlant(@PathVariable String plantName) {
-        String decodedName = java.net.URLDecoder.decode(plantName, StandardCharsets.UTF_8);
-        Plant plant = dbService.getPlant(decodedName);
+        Plant plant = dbService.getPlant(plantName);
         return ResponseEntity.ok().body(plant);
     }
 

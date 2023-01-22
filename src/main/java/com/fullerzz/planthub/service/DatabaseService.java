@@ -33,7 +33,7 @@ public class DatabaseService {
 
     public Plant getPlant(String plantName) {
         Plant plant = null;
-        String sql = "SELECT * FROM plant_info WHERE name=" + plantName;
+        String sql = "SELECT * FROM plant_info WHERE name=\"" + plantName + "\"";
 
         try {
             Statement stmt = dbConnection.createStatement();
